@@ -105,6 +105,12 @@ function M.start(args)
                 -- https://www.kernel.org/doc/html/latest/admin-guide/LSM/Yama.html
                 runInTerminal = false,
               }
+              --credit: https://github.com/simrat39/rust-tools.nvim/pull/243
+              if vim.g.rust_debug_args then
+                for m in vim.g.rust_debug_args:gmatch("%S+") do
+                  table.insert(dap_config.args, m)
+                end
+              end
               dap.run(dap_config)
               break
             end

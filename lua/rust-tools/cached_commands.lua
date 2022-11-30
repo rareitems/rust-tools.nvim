@@ -6,17 +6,18 @@ local cache = {
   last_runnable = nil,
 }
 
--- @param action 
+-- @param action
 M.set_last_runnable = function(c, r)
   cache.last_runnable = { choice, result }
 end
 
--- @param args 
+-- @param args
 M.set_last_debuggable = function(args)
   cache.last_debuggable = args
 end
 
 M.execute_last_debuggable = function()
+  vim.g.rust_debug_args = nil
   local args = cache.last_debuggable
   if args then
     rt.dap.start(args)
@@ -26,8 +27,9 @@ M.execute_last_debuggable = function()
 end
 
 M.execute_last_runnable = function()
+  vim.g.rust_debug_args = nil
   local action = cache.last_runnable
-  if action then 
+  if action then
     rt.runnables.run_command(action[0], action[1])
   else
     rt.runnables.runnables()
